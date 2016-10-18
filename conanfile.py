@@ -39,6 +39,9 @@ class ExpatConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.includedirs = ['include']  # Ordered list of include paths
-        self.cpp_info.libs = ['expat']  # The libs to link against
+        if self.settings.os == "Windows":
+            self.cpp_info.libs = ['expat']
+        else:
+            self.cpp_info.libs = ['libexpat.so']
         self.cpp_info.libdirs = ['lib']  # Directories where libraries can be found
         self.cpp_info.resdirs = ['res']  # Directories where resources, data, etc can be found
