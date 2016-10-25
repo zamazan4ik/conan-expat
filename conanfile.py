@@ -1,6 +1,5 @@
 from conans import ConanFile, tools, CMake
 import os, sys
-#import multiprocessing
 
 class ExpatConan(ConanFile):
     name = "Expat"
@@ -23,14 +22,14 @@ class ExpatConan(ConanFile):
         cmake = CMake(self.settings)
         cmake_options = []
         cmake_options.append("CMAKE_INSTALL_PREFIX=installFolder")
-        #n_cores = multiprocessing.cpu_count()
-        n_cores = 12
         options = " -D".join(cmake_options)
 
         conf_command = 'cd expat && cmake . %s -D%s' % (cmake.command_line, options)
         self.output.warn(conf_command)
         self.run(conf_command)
-        self.run("cd expat && cmake --build . %s -- -j%s" % (cmake.build_config, n_cores))
+        self.run("cd expat && cmake --build . %s -- -j%s" % (
+            cmake.build_config,
+            tools.cpu_count()))
         self.run("cd expat && cmake --build . --target install")
 
     def package(self):
