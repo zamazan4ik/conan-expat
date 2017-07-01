@@ -1,18 +1,26 @@
 from conans import ConanFile, CMake
 import os
 
-username = os.getenv("CONAN_USERNAME", "piponazo")
-channel = os.getenv("CONAN_CHANNEL", "testing")
 
-class GmpReuseConan(ConanFile):
+channel = os.getenv("CONAN_CHANNEL", "testing")
+username = os.getenv("CONAN_USERNAME", "piponazo")
+
+
+class ExpatTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    requires = "Expat/2.2.0@%s/%s" % (username, channel)
+    requires = "Expat/2.2.1@%s/%s" % (username, channel)
     generators = "cmake"
 
     def build(self):
-        cmake = CMake(self.settings)
-        self.run('cmake "%s" %s' % (self.conanfile_directory, cmake.command_line))
-        self.run("cmake --build . %s" % cmake.build_config)
+        cmake = CMake(self)
+        # Current dir is "test_package/build/<build_id>" and CMakeLists.txt is in "test_package"
+        cmake.configure(source_dir=self.conanfile_directory, build_dir="./")
+        cmake.build()
+
+    def imports(self):
+        self.copy("*.dll", dst="bin", src="bin")
+        self.copy("*.dylib*", dst="bin", src="lib")
 
     def test(self):
-        self.run(os.sep.join([".","bin", "test"]))
+        os.chdir("bin")
+        self.run(".%sexample" % os.sep)

@@ -1,46 +1,49 @@
-from conans import ConanFile, tools, CMake
-import os, sys
+from conans import ConanFile, CMake, tools
+import os
+
 
 class ExpatConan(ConanFile):
     name = "Expat"
-    version = "2.2.0"
+    version = "2.2.1"
+    license = "MIT/X Consortium license. Check file COPYING of the library"
+    url = "https://github.com/piponazo/conan-expat"
     settings = "os", "compiler", "build_type", "arch"
-    url="https://github.com/piponazo/conan-expat"
-    FOLDER_NAME = "expat_%s" % version.replace(".", "_")
-    license="GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007"
+    options = {"shared": [True, False]}
+    default_options = "shared=False"
+    generators = "cmake"
+    exports = ['FindExpat.cmake']
 
     def source(self):
-        tarball = 'expat-2.2.0.tar.bz2'
-        url='http://downloads.sourceforge.net/project/expat/expat/2.2.0/expat-2.2.0.tar.bz2'
-        self.output.info("Downloading %s..." % url)
-        tools.download(url, tarball)
-        tools.unzip(tarball, ".")
-        os.remove(tarball)
+        self.run("git clone --depth 1 --branch R_2_2_1 https://github.com/libexpat/libexpat")
+        # This small hack might be useful to guarantee proper /MT /MD linkage in MSVC
+        # if the packaged project doesn't have variables to set it properly
+        tools.replace_in_file("libexpat/expat/CMakeLists.txt", "project(expat)",
+            '''project(expat)
+            include(${CMAKE_BINARY_DIR}/../conanbuildinfo.cmake)
+            conan_basic_setup()''')
 
     def build(self):
-        os.rename('expat-2.2.0', 'expat')
-        cmake = CMake(self.settings)
-        cmake_options = []
-        cmake_options.append("CMAKE_INSTALL_PREFIX=installFolder")
-        options = " -D".join(cmake_options)
+        cmake = CMake(self, parallel=True)
 
-        conf_command = 'cd expat && cmake . %s -D%s' % (cmake.command_line, options)
-        self.output.warn(conf_command)
-        self.run(conf_command)
-        self.run("cd expat && cmake --build . %s -- -j%s" % (
-            cmake.build_config,
-            tools.cpu_count()))
-        self.run("cd expat && cmake --build . --target install")
+        cmake_args = { "CMAKE_INSTALL_PREFIX" : self.package_folder,
+                       "BUILD_doc" : "OFF",
+                       "BUILD_examples" : "OFF",
+                       "BUILD_shared" : self.options.shared,
+                       "BUILD_tests" : "OFF",
+                       "BUILD_tools" : "OFF"
+                     }
+
+        #shared = "-DBUILD_SHARED_LIBS=ON" if self.options.shared else ""
+        cmake.configure(source_dir="../libexpat/expat", build_dir="build", defs=cmake_args)
+        cmake.build(target="install")
 
     def package(self):
-        self.copy("*.h",   dst="include", src="expat/installFolder/include")
-        self.copy("*.so*", dst="lib",     src="expat/installFolder/lib")
+        self.copy("FindExpat.cmake", ".", ".")
 
     def package_info(self):
-        self.cpp_info.includedirs = ['include']  # Ordered list of include paths
-        if self.settings.os == "Windows":
-            self.cpp_info.libs = ['expat']
-        else:
-            self.cpp_info.libs = ['libexpat.so']
-        self.cpp_info.libdirs = ['lib']  # Directories where libraries can be found
-        self.cpp_info.resdirs = ['res']  # Directories where resources, data, etc can be found
+        self.cpp_info.libs = ["expat"]
+        self.cpp_info.libdirs = ["lib"]
+        self.cpp_info.includedirs = ["include"]
+
+    def configure(self):
+        del self.settings.compiler.libcxx
