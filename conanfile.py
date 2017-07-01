@@ -5,6 +5,7 @@ import os
 class ExpatConan(ConanFile):
     name = "Expat"
     version = "2.2.1"
+    description = "Recipe for Expat library"
     license = "MIT/X Consortium license. Check file COPYING of the library"
     url = "https://github.com/piponazo/conan-expat"
     settings = "os", "compiler", "build_type", "arch"
