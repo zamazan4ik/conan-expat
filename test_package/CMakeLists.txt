@@ -1,10 +1,13 @@
-project(ExpatTest)
+project(PackageTest CXX)
 cmake_minimum_required(VERSION 2.8.12)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-add_executable(test main.cpp)
-target_link_libraries(test ${CONAN_LIBS})
+find_package(Expat REQUIRED)
 
-set_property(TARGET test PROPERTY CXX_STANDARD 11)
+message("EXPAT_LIBRARY: ${EXPAT_LIBRARY}")
+message("EXPAT_INCLUDE_DIR: ${EXPAT_INCLUDE_DIR}")
+
+add_executable(example example.cpp)
+target_link_libraries(example ${EXPAT_LIBRARY})
