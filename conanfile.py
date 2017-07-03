@@ -1,5 +1,4 @@
 from conans import ConanFile, CMake, tools
-import os
 
 
 class ExpatConan(ConanFile):
@@ -34,7 +33,6 @@ class ExpatConan(ConanFile):
                        "BUILD_tools" : "OFF"
                      }
 
-        #shared = "-DBUILD_SHARED_LIBS=ON" if self.options.shared else ""
         cmake.configure(source_dir="../libexpat/expat", build_dir="build", defs=cmake_args)
         cmake.build(target="install")
 
