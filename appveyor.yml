@@ -7,7 +7,7 @@ environment:
 
     CONAN_REFERENCE: "Expat/2.2.1"
     CONAN_USERNAME: "pix4d"
-    CONAN_LOGIN_USERNAME: "pix4d"
+    CONAN_LOGIN_USERNAME: "piponazo"
     CONAN_CHANNEL: "testing"
     VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
     
