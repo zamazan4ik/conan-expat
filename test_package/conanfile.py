@@ -3,7 +3,7 @@ import os
 
 
 channel = os.getenv("CONAN_CHANNEL", "testing")
-username = os.getenv("CONAN_USERNAME", "piponazo")
+username = os.getenv("CONAN_USERNAME", "pix4d")
 
 
 class ExpatTestConan(ConanFile):

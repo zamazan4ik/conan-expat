@@ -6,7 +6,7 @@ class ExpatConan(ConanFile):
     version = "2.2.1"
     description = "Recipe for Expat library"
     license = "MIT/X Consortium license. Check file COPYING of the library"
-    url = "https://github.com/piponazo/conan-expat"
+    url = "https://github.com/Pix4D/conan-expat"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
     default_options = "shared=False"

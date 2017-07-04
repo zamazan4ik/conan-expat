@@ -2,8 +2,8 @@
 env:
    global:
      - CONAN_REFERENCE: "Expat/2.2.1"
-     - CONAN_USERNAME: "piponazo"
-     - CONAN_LOGIN_USERNAME: "piponazo"
+     - CONAN_USERNAME: "pix4d"
+     - CONAN_LOGIN_USERNAME: "pix4d"
      - CONAN_CHANNEL: "testing"
      
 linux: &linux
