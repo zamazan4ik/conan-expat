@@ -1,12 +1,13 @@
 from conans import ConanFile, CMake, tools
 
-
 class ExpatConan(ConanFile):
+    """ This recipe requires conan 0.25.1 at least"""
+
     name = "Expat"
-    version = "2.2.1"
+    version = "2.2.3"
     description = "Recipe for Expat library"
     license = "MIT/X Consortium license. Check file COPYING of the library"
-    url = "https://github.com/Pix4D/conan-expat"
+    url = "https://github.com/libexpat/libexpat"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
     default_options = "shared=False"
@@ -14,7 +15,9 @@ class ExpatConan(ConanFile):
     exports = ['FindExpat.cmake']
 
     def source(self):
-        self.run("git clone --depth 1 --branch R_2_2_1 https://github.com/libexpat/libexpat")
+        self.run("git clone --depth 1 --branch R_2_2_3 %s" % self.url)
+
+    def build(self):
         # This small hack might be useful to guarantee proper /MT /MD linkage in MSVC
         # if the packaged project doesn't have variables to set it properly
         tools.replace_in_file("libexpat/expat/CMakeLists.txt", "project(expat)",
@@ -22,15 +25,13 @@ class ExpatConan(ConanFile):
             include(${CMAKE_BINARY_DIR}/../conanbuildinfo.cmake)
             conan_basic_setup()''')
 
-    def build(self):
         cmake = CMake(self, parallel=True)
 
-        cmake_args = { "CMAKE_INSTALL_PREFIX" : self.package_folder,
-                       "BUILD_doc" : "OFF",
+        cmake_args = { "BUILD_doc" : "OFF",
                        "BUILD_examples" : "OFF",
                        "BUILD_shared" : self.options.shared,
                        "BUILD_tests" : "OFF",
-                       "BUILD_tools" : "OFF"
+                       "BUILD_tools" : "OFF",
                      }
 
         cmake.configure(source_dir="../libexpat/expat", build_dir="build", defs=cmake_args)
