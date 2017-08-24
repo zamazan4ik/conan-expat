@@ -34,6 +34,9 @@ class ExpatConan(ConanFile):
                        "BUILD_tools" : "OFF",
                      }
 
+        if tools.os_info.is_linux:
+            cmake_args['CMAKE_C_FLAGS'] = '-fPIC'
+
         cmake.configure(source_dir="../libexpat/expat", build_dir="build", defs=cmake_args)
         cmake.build(target="install")
 
