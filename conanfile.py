@@ -46,8 +46,6 @@ class ExpatConan(ConanFile):
     def package_info(self):
         self.cpp_info.debug.libs = ["expatd"]
         self.cpp_info.release.libs = ["expat"]
-        self.cpp_info.libdirs = ["lib"]
-        self.cpp_info.includedirs = ["include"]
         if not self.options.shared:
             self.cpp_info.defines = ["XML_STATIC"]
 
