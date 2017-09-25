@@ -7,7 +7,8 @@ class ExpatConan(ConanFile):
     version = "2.2.1"
     description = "Recipe for Expat library"
     license = "MIT/X Consortium license. Check file COPYING of the library"
-    url = "https://github.com/libexpat/libexpat"
+    url = "https://github.com/Pix4D/conan-expat"
+    source_url = "https://github.com/libexpat/libexpat"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
     default_options = "shared=False"
@@ -15,7 +16,7 @@ class ExpatConan(ConanFile):
     exports = ['FindExpat.cmake']
 
     def source(self):
-        self.run("git clone --depth 1 --branch R_2_2_1 %s" % self.url)
+        self.run("git clone --depth 1 --branch R_2_2_1 %s" % self.source_url)
 
     def build(self):
         # This small hack might be useful to guarantee proper /MT /MD linkage in MSVC
