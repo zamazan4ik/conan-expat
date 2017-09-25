@@ -33,6 +33,7 @@ class ExpatConan(ConanFile):
                        "BUILD_shared" : self.options.shared,
                        "BUILD_tests" : "OFF",
                        "BUILD_tools" : "OFF",
+                       "CMAKE_DEBUG_POSTFIX": "d",
                      }
 
         if tools.os_info.is_linux:
@@ -45,7 +46,11 @@ class ExpatConan(ConanFile):
         self.copy("FindExpat.cmake", ".", ".")
 
     def package_info(self):
-        self.cpp_info.libs = ["expat"]
+        if self.settings.build_type == "Debug":
+               self.cpp_info.libs = ["expatd"]
+        else:
+               self.cpp_info.libs = ["expat"]
+        self.cpp_info.libs = ["expat", "expatd"]
         if not self.options.shared:
             self.cpp_info.defines = ["XML_STATIC"]
 
