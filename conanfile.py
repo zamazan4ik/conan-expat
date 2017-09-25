@@ -44,8 +44,7 @@ class ExpatConan(ConanFile):
         self.copy("FindExpat.cmake", ".", ".")
 
     def package_info(self):
-        self.cpp_info.debug.libs = ["expatd"]
-        self.cpp_info.release.libs = ["expat"]
+        self.cpp_info.libs = ["expat"]
         if not self.options.shared:
             self.cpp_info.defines = ["XML_STATIC"]
 
