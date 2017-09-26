@@ -34,10 +34,8 @@ class ExpatConan(ConanFile):
                        "BUILD_tests" : "OFF",
                        "BUILD_tools" : "OFF",
                        "CMAKE_DEBUG_POSTFIX": "d",
+                       "CMAKE_POSITION_INDEPENDENT_CODE": "ON",
                      }
-
-        if tools.os_info.is_linux:
-            cmake_args["CMAKE_POSITION_INDEPENDENT_CODE"] = "ON"
 
         cmake.configure(source_dir="../libexpat/expat", build_dir="build", defs=cmake_args)
         cmake.build(target="install")
