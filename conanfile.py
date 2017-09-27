@@ -45,9 +45,9 @@ class ExpatConan(ConanFile):
 
     def package_info(self):
         if self.settings.build_type == "Debug":
-               self.cpp_info.libs = ["expatd"]
+            self.cpp_info.libs = ["expatd"]
         else:
-               self.cpp_info.libs = ["expat"]
+            self.cpp_info.libs = ["expat"]
         if not self.options.shared:
             self.cpp_info.defines = ["XML_STATIC"]
 
