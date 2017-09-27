@@ -6,8 +6,8 @@ class ExpatTestConan(ConanFile):
     generators = "cmake"
 
     def imports(self):
-        self.copy("*.dll", dst="bin", src="bin")
-        self.copy("*.dylib*", dst="bin", src="lib")
+        self.copy("*.dll",    dst="bin", src="bin")
+        self.copy("*.dylib*", dst="lib", src="lib")
         self.copy("*.so*",    src="lib", dst="lib")
 
     def build(self):
