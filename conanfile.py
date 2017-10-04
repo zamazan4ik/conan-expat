@@ -13,18 +13,13 @@ class ExpatConan(ConanFile):
     options = {"shared": [True, False]}
     default_options = "shared=False"
     generators = "cmake"
-    exports = ['FindExpat.cmake']
+    exports = ['FindExpat.cmake', 'patches/*']
 
     def source(self):
         self.run("git clone --depth 1 --branch R_2_2_4 %s" % self.source_url)
 
     def build(self):
-        # This small hack might be useful to guarantee proper /MT /MD linkage in MSVC
-        # if the packaged project doesn't have variables to set it properly
-        tools.replace_in_file("libexpat/expat/CMakeLists.txt", "project(expat)",
-            '''project(expat)
-            include(${CMAKE_BINARY_DIR}/../conanbuildinfo.cmake)
-            conan_basic_setup()''')
+        tools.patch(base_path = "libexpat", patch_file="patches/useConanFileAndIncreaseCMakeVersion.patch")
 
         cmake = CMake(self, parallel=True)
 
