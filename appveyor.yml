@@ -5,20 +5,16 @@ environment:
     PYTHON_VERSION: "2.7.8"
     PYTHON_ARCH: "32"
 
-    CONAN_REFERENCE: "Expat/2.2.1"
+    CONAN_REFERENCE: "Expat/2.2.4"
     CONAN_USERNAME: "pix4d"
     CONAN_LOGIN_USERNAME: "piponazo"
     CONAN_CHANNEL: "testing"
-    VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
     
     matrix:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
           CONAN_VISUAL_VERSIONS: 12
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
           CONAN_VISUAL_VERSIONS: 14
-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-          CONAN_VISUAL_VERSIONS: 15
-
 
 install:
   - set PATH=%PATH%;%PYTHON%/Scripts/
