@@ -13,7 +13,7 @@ class ExpatConan(ConanFile):
     options = {"shared": [True, False]}
     default_options = "shared=False"
     generators = "cmake"
-    exports = ['FindExpat.cmake', 'patches/*']
+    exports_sources = ['FindExpat.cmake', 'patches/*']
 
     def source(self):
         self.run("git clone --depth 1 --branch R_2_2_4 %s" % self.source_url)
