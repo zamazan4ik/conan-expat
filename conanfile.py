@@ -4,10 +4,10 @@ class ExpatConan(ConanFile):
     """ This recipe requires conan 0.25.1 at least"""
 
     name = "Expat"
-    version = "2.2.4"
+    version = "2.2.5"
     description = "Recipe for Expat library"
     license = "MIT/X Consortium license. Check file COPYING of the library"
-    url = "https://github.com/Pix4D/conan-expat"
+    url = "https://github.com/ZaMaZaN4iK/conan-expat"
     source_url = "https://github.com/libexpat/libexpat"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
@@ -16,10 +16,13 @@ class ExpatConan(ConanFile):
     exports_sources = ['FindExpat.cmake', 'patches/*']
 
     def source(self):
-        self.run("git clone --depth 1 --branch R_2_2_4 %s" % self.source_url)
+        base_url = "https://github.com/libexpat/libexpat/archive"
+        zip_name = "R_2_2_5.zip"
+        tools.download("%s/%s" % (base_url, zip_name), "libexpat")
+        tools.unzip("libexpat")
 
     def build(self):
-        tools.patch(base_path = "libexpat", patch_file="patches/useConanFileAndIncreaseCMakeVersion.patch")
+        tools.patch(base_path = "libexpat-R_2_2_5", patch_file="patches/useConanFileAndIncreaseCMakeVersion.patch")
 
         cmake = CMake(self, parallel=True)
 
@@ -32,7 +35,7 @@ class ExpatConan(ConanFile):
                        "CMAKE_POSITION_INDEPENDENT_CODE": "ON",
                      }
 
-        cmake.configure(source_dir="../libexpat/expat", build_dir="build", defs=cmake_args)
+        cmake.configure(source_dir="../libexpat-R_2_2_5/expat", build_dir="build", defs=cmake_args)
         cmake.build(target="install")
 
     def package(self):
