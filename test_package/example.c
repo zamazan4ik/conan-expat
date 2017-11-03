@@ -40,8 +40,7 @@ endElement(void *userData, const char *name)
   *depthPtr -= 1;
 }
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
   XML_Parser parser = XML_ParserCreate(NULL);
   int depth = 0;
