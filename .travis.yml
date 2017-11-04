@@ -1,7 +1,7 @@
 
 env:
    global:
-     - CONAN_REFERENCE: "Expat/2.2.4"
+     - CONAN_REFERENCE: "Expat/2.2.5"
      - CONAN_CHANNEL: "stable"
      - CONAN_UPLOAD: "https://api.bintray.com/conan/zamazan4ik/conan"
      - CONAN_STABLE_BRANCH_PATTERN: "release/*"
