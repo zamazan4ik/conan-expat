@@ -5,7 +5,6 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(SKIP_RPATH)
 
 if (UNIX)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
     set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
     if (APPLE)
         set(CMAKE_INSTALL_RPATH "@executable_path/../lib")
