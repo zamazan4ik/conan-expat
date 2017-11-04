@@ -13,7 +13,7 @@ class ExpatConan(ConanFile):
     options = {"shared": [True, False]}
     default_options = "shared=False"
     generators = "cmake"
-    exports_sources = ['FindExpat.cmake', 'patches/*']
+    exports = ['FindExpat.cmake', 'patches/*']
 
     def source(self):
         base_url = "https://github.com/libexpat/libexpat/archive"
